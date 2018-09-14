@@ -1,22 +1,46 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'semantic-ui-react';
+import { base, app } from '../rebase';
 
 class NewTaskForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      summary: "",
+      priority: "",
+      repeat: "",
+    };
+  }
+
+  addTask = () => {
+    const {
+      uid
+    } = this.props;
+
+    let immediatelyAvailableReference = base.push('Users/' + uid + '/Tasks/All', {
+      data: {summary: this.state.summary, priority: this.state.priority, repeat: this.state.repeat, created: Date.now()},
+      then(err){
+        if(err){
+          console.log(err);
+        }
+      }
+    });
+  }
   render() {
 
     return (
       <Form>
         <Form.Field>
           <label>Task</label>
-          <input placeholder='Task Description' />
+          <input placeholder='Task Description' onChange={(e) => this.setState({summary: e.target.value})}/>
         </Form.Field>
-        <Form.Field label='Repeat Every' control='select'>
+        <Form.Field label='Repeat Every' control='select' onChange={(e) => this.setState({repeat: e.target.value})}>
           <option value='None'>None</option>
           <option value='Hour'>Hour</option>
           <option value='Day'>Day</option>
           <option value='Week'>Week</option>
         </Form.Field>
-        <Form.Field label='Priority' control='select'>
+        <Form.Field label='Priority' control='select' onChange={(e) => this.setState({priority: e.target.value})}>
           <option value='Low'>Low</option>
           <option value='Medium'>Medium</option>
           <option value='High'>High</option>
@@ -26,7 +50,7 @@ class NewTaskForm extends Component {
           <option value='Self'>Self</option>
           <option value='Manan'>Manan</option>
         </Form.Field>
-        <Button type='submit'>Submit</Button>
+        <Button type='submit' onClick={ this.addTask }>Submit</Button>
       </Form>
     );
   }

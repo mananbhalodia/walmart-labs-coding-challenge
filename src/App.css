@@ -13,6 +13,12 @@
   color: white;
 }
 
+.App-header-logout {
+  position: absolute;
+  right: 10%;
+  top: 3%;
+}
+
 .App-title {
   font-size: 1.5em;
 }

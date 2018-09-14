@@ -71,7 +71,7 @@ const CardExampleContentBlock = ( { header, events }) => (
       <Feed>
         {
           events.map(item => {
-            let timeElapsed = item.timeElapsed;
+            let timeElapsed = item.created;
             let summary = item.summary;
             return (
               FeedEvent (timeElapsed, summary, header)
