@@ -25,13 +25,23 @@ class App extends Component {
         const uid = app.auth().currentUser.uid;
         this.setState({auth: true, uid: uid});
 
-        this.ref = base.syncState('Users/'+ uid +'/Tasks/All', {
+        this.ref = base.syncState('Users/'+ uid +'/Tasks/Not Started', {
           context: this,
           state: 'notStarted',
           asArray: true,
           then() {
             this.setState({ loading: false });
           }
+        });
+        this.ref = base.syncState('Users/'+ uid +'/Tasks/In Progress', {
+          context: this,
+          state: 'inProgress',
+          asArray: true,
+        });
+        this.ref = base.syncState('Users/'+ uid +'/Tasks/Completed', {
+          context: this,
+          state: 'completed',
+          asArray: true,
         });
       } else {
         this.setState({auth: false, uid: ''});
@@ -64,7 +74,7 @@ class App extends Component {
     return (
       <div>
         <div className="App-main">
-            <GridExampleDividedNumber notStarted= { this.state.notStarted } inProgress= { this.state.inProgress } completed = { this.state.completed }/>
+            <GridExampleDividedNumber notStarted= { this.state.notStarted } inProgress= { this.state.inProgress } completed = { this.state.completed } uid={this.state.uid}/>
           </div>
           <div className="App-footer">
             <Sticky>
