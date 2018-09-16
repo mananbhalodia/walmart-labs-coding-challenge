@@ -17,7 +17,7 @@ class NewTaskForm extends Component {
       uid
     } = this.props;
 
-    let immediatelyAvailableReference = base.push('Users/' + uid + '/Tasks/All', {
+    let immediatelyAvailableReference = base.push('Users/' + uid + '/Tasks/Not Started', {
       data: {summary: this.state.summary, priority: this.state.priority, repeat: this.state.repeat, created: Date.now()},
       then(err){
         if(err){
