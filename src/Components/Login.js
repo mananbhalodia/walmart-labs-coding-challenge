@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'semantic-ui-react';
-import { app } from '../rebase';
+import { base, app } from '../rebase';
 
 class Login extends Component {
   
@@ -12,12 +12,21 @@ class Login extends Component {
     };
   }
   signUp = () => {
-    app.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
+    app.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((user) => {
+      let immediatelyAvailableReference = base.post('UserList/' + user.user.uid, {
+        data: {userName: this.state.email},
+        then(err){
+          if(err){
+            console.log(err);
+          }
+        }
+      });
+    }).catch(function(error) {
       // Handle Errors here.
       let errorCode = error.code;
       let errorMessage = error.message;
       console.log(errorMessage);
-    });
+    })
   }
 
   login = () => {

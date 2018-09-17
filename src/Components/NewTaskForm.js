@@ -9,6 +9,7 @@ class NewTaskForm extends Component {
       summary: "",
       priority: "",
       repeat: "",
+      userID: props.uid,
     };
   }
 
@@ -16,17 +17,21 @@ class NewTaskForm extends Component {
     const {
       uid
     } = this.props;
-
-    let immediatelyAvailableReference = base.push('Users/' + uid + '/Tasks/Not Started', {
+    let immediatelyAvailableReference = base.push('Users/' + this.state.userID + '/Tasks/Not Started', {
       data: {summary: this.state.summary, priority: this.state.priority, repeat: this.state.repeat, created: Date.now()},
       then(err){
         if(err){
           console.log(err);
         }
       }
-    });
+    })
   }
   render() {
+
+    const {
+      users,
+      uid,
+    } = this.props;
 
     return (
       <Form>
@@ -46,9 +51,16 @@ class NewTaskForm extends Component {
           <option value='High'>High</option>
           <option value='Critical'>Critical</option>
         </Form.Field>
-        <Form.Field label='Assign To' control='select' disabled>
-          <option value='Self'>Self</option>
-          <option value='Manan'>Manan</option>
+        <Form.Field label='Assign To' control='select' onChange={(e) => this.setState({userID: e.target.value})}>
+          <option value={uid}>Self</option>
+          {
+            users.map(user => {
+              if (user.key != uid) {
+                return <option value={user.key}>{user.userName}</option>
+              }
+            })
+          }
+          
         </Form.Field>
         <Button type='submit' onClick={ this.addTask }>Submit</Button>
       </Form>
