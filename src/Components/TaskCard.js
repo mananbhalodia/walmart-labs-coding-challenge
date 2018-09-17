@@ -66,7 +66,7 @@ class CardExampleContentBlock extends Component {
       return (
         <Feed.Event className= "Task-card-feed-event">
           <Feed.Content>
-            <Feed.Date content={ item.created } />
+            <Feed.Date content={ new Date(item.created).toLocaleDateString() } />
             <Feed.Summary>
               { item.summary }
             </Feed.Summary>
@@ -94,7 +94,6 @@ class CardExampleContentBlock extends Component {
             <Feed>
               {
                 events.map(item => {
-                  console.log(item);
                   return (
                     FeedEvent (header, item, uid)
                   )

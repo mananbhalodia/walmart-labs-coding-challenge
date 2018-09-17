@@ -17,6 +17,7 @@ class App extends Component {
       completed: [],
       loading: true,
       auth: false,
+      users: [],
       uid: '',
     };
 
@@ -43,6 +44,11 @@ class App extends Component {
           state: 'completed',
           asArray: true,
         });
+        this.ref = base.syncState('UserList', {
+          context: this,
+          state: 'users',
+          asArray: true,
+        });
       } else {
         this.setState({auth: false, uid: ''});
       }
@@ -62,7 +68,7 @@ class App extends Component {
 
   mainContent = () => {
     const addTaskForm = (
-      <NewTaskForm uid={this.state.uid}/>
+      <NewTaskForm uid={this.state.uid} users={this.state.users}/>
     );
     const newTaskButton = (
       <Button color={'yellow'} circular icon labelPosition='left'>
@@ -96,8 +102,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.notStarted);
-
     const loggedIn = this.state.auth ? this.mainContent() : this.loginContent();
     const signOutButton = (
       <div className="App-header-logout">
