@@ -3,9 +3,9 @@ import { Grid, Image } from 'semantic-ui-react';
 import CardExampleContentBlock from './TaskCard';
 
 const GridExampleDividedNumber = ( {notStarted, inProgress, completed, uid} ) => (
-  <Grid columns='equal' >
+  <Grid columns='equal' id="main-task-table">
       <Grid.Column>
-        <CardExampleContentBlock header="Not Started" events = { notStarted } uid={uid}/>
+        <CardExampleContentBlock id="main-task-table-notStarted-col" header="Not Started" events = { notStarted } uid={uid}/>
       </Grid.Column>
       <Grid.Column>
         <CardExampleContentBlock header="In Progress" events = { inProgress } uid={uid}/>

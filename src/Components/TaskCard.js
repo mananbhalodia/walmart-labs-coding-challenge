@@ -64,7 +64,7 @@ class CardExampleContentBlock extends Component {
     
     const FeedEvent = (header, item, uid) => {
       return (
-        <Feed.Event className= "Task-card-feed-event">
+        <Feed.Event className= "Task-card-feed-event" id="task-card">
           <Feed.Content>
             <Feed.Date content={ new Date(item.created).toLocaleDateString() } />
             <Feed.Summary>
