@@ -8,9 +8,9 @@ import { Grid } from 'semantic-ui-react';
 import ProgressCard from './TaskCard';
 
 const TaskTable = ( {notStarted, inProgress, completed, uid} ) => (
-  <Grid columns='equal' >
+  <Grid columns='equal' id="main-task-table">
       <Grid.Column>
-        <ProgressCard header="Not Started" events = { notStarted } uid={uid}/>
+        <ProgressCard id="main-task-table-notStarted-col" header="Not Started" events = { notStarted } uid={uid}/>
       </Grid.Column>
       <Grid.Column>
         <ProgressCard header="In Progress" events = { inProgress } uid={uid}/>

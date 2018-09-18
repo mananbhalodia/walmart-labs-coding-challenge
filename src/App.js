@@ -75,7 +75,7 @@ class App extends Component {
       <NewTaskForm uid={this.state.uid} users={this.state.users}/>
     );
     const newTaskButton = (
-      <Button color={'yellow'} circular icon labelPosition='left'>
+      <Button id="main-new-task-button" color={'yellow'} circular icon labelPosition='left'>
         <Icon size={'large'} name='plus circle' />
         New Task
       </Button>
@@ -92,7 +92,7 @@ class App extends Component {
                 trigger={ newTaskButton }
                 content={ addTaskForm }
                 on='click'
-                position='top'
+                position='top center'
               />
 
             </Sticky>
@@ -111,12 +111,12 @@ class App extends Component {
     const loggedIn = this.state.auth ? this.mainContent() : this.loginContent();
     const signOutButton = (
       <div className="App-header-logout">
-        <Button color={'red'} type='submit' onClick={this.signOut}>Logout</Button>
+        <Button id="main-logout-button" color={'red'} type='submit' onClick={this.signOut}>Logout</Button>
       </div>
     );
 
     return (
-      <div className="App">
+      <div className="App" id="main">
         <header className="App-header">
           <h1 className="App-title">Welcome to Task Master!</h1>
           {/* if user logged in then show signout button */}

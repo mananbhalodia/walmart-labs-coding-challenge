@@ -46,17 +46,17 @@ class Login extends Component {
 
   render() {
     return (
-      <Form className="App-main">
-        <Form.Field>
+      <Form className="App-main" id="main-login">
+        <Form.Field id="main-login-email">
           <label>Email</label>
           <input placeholder='email@email.com' onChange={(e) => this.setState({ email: e.target.value})} />
         </Form.Field>
-        <Form.Field>
+        <Form.Field id="main-login-password">
           <label>Password</label>
           <input type="password" placeholder='password' onChange={(e) => this.setState({ password: e.target.value})} />
         </Form.Field>
-        <Button type='submit' onClick={this.login}>Login</Button>
-        <Button type='submit' onClick={this.signUp}>Sign Up</Button>
+        <Button id="main-login-login-button" type='submit' onClick={this.login}>Login</Button>
+        <Button id="main-login-signup-button" type='submit' onClick={this.signUp}>Sign Up</Button>
       </Form>
     );
   }

@@ -30,6 +30,15 @@ class NewTaskForm extends Component {
         }
       }
     })
+
+    immediatelyAvailableReference = base.push('Users/' + this.state.userID + '/Tasks/All', {
+      data: {summary: this.state.summary, priority: this.state.priority, repeat: this.state.repeat, created: Date.now()},
+      then(err){
+        if(err){
+          console.log(err);
+        }
+      }
+    })
   }
   
   render() {

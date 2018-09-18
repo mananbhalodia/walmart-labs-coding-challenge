@@ -80,7 +80,7 @@ class ProgressCard extends Component {
     // Renders the actual task that in the card
     const FeedEvent = (progress, item, userID) => {
       return (
-        <Feed.Event className= "Task-card-feed-event">
+        <Feed.Event className= "Task-card-feed-event" id="task-card">
           <Feed.Content>
             <Feed.Date content={ new Date(item.created).toLocaleDateString() } />
             <Feed.Summary>
