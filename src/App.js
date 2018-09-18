@@ -1,5 +1,9 @@
+// Main entry point for the app.
+// Renders: Login, task Table, logout, and new task button
+// Makes inital connection with firebase so that relevant states can get updated 
+
 import React, { Component } from 'react';
-import GridExampleDividedNumber from './Components/TaskTable';
+import TaskTable from './Components/TaskTable';
 import NewTaskForm from './Components/NewTaskForm';
 import Login from './Components/Login';
 import { Sticky, Icon, Button, Popup } from 'semantic-ui-react';
@@ -21,6 +25,7 @@ class App extends Component {
       uid: '',
     };
 
+    // If user is authenitcated then get data from firebase and update states.
     app.auth().onAuthStateChanged((user) => {
       if (user) {
         const uid = app.auth().currentUser.uid;
@@ -55,9 +60,7 @@ class App extends Component {
     });
   }
 
-  componentDidMount() {
-  }
-
+  //change auth state to false once user logs out
   signOut = () => {
     app.auth().signOut().then(function() {
       this.setState({auth: false});
@@ -66,6 +69,7 @@ class App extends Component {
     });
   }
 
+  // main content refers to table of tasks and new task button 
   mainContent = () => {
     const addTaskForm = (
       <NewTaskForm uid={this.state.uid} users={this.state.users}/>
@@ -80,7 +84,7 @@ class App extends Component {
     return (
       <div>
         <div className="App-main">
-            <GridExampleDividedNumber notStarted= { this.state.notStarted } inProgress= { this.state.inProgress } completed = { this.state.completed } uid={this.state.uid}/>
+            <TaskTable notStarted= { this.state.notStarted } inProgress= { this.state.inProgress } completed = { this.state.completed } uid={this.state.uid}/>
           </div>
           <div className="App-footer">
             <Sticky>
@@ -102,6 +106,8 @@ class App extends Component {
   }
 
   render() {
+    // if auth state is true then show the main content,
+    // other wise show login screen
     const loggedIn = this.state.auth ? this.mainContent() : this.loginContent();
     const signOutButton = (
       <div className="App-header-logout">
@@ -113,6 +119,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Welcome to Task Master!</h1>
+          {/* if user logged in then show signout button */}
           {
             this.state.auth ? signOutButton : null
           }

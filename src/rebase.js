@@ -1,3 +1,5 @@
+// Initialize firebase with rebase library
+
 import Rebase from 're-base';
 import firebase from 'firebase/app';
 import 'firebase/database';
