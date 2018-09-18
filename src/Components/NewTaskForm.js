@@ -1,3 +1,5 @@
+// Renders the new task form and the logic to add task to database.
+
 import React, { Component } from 'react';
 import { Form, Button } from 'semantic-ui-react';
 import { base, app } from '../rebase';
@@ -13,11 +15,14 @@ class NewTaskForm extends Component {
     };
   }
 
+  // addTask adds a new task to the database
   addTask = () => {
     const {
       uid
     } = this.props;
+
     let immediatelyAvailableReference = base.push('Users/' + this.state.userID + '/Tasks/Not Started', {
+      // Task to be stored in database
       data: {summary: this.state.summary, priority: this.state.priority, repeat: this.state.repeat, created: Date.now()},
       then(err){
         if(err){
@@ -35,8 +40,8 @@ class NewTaskForm extends Component {
       }
     })
   }
+  
   render() {
-
     const {
       users,
       uid,
@@ -63,6 +68,7 @@ class NewTaskForm extends Component {
         <Form.Field label='Assign To' control='select' onChange={(e) => this.setState({userID: e.target.value})}>
           <option value={uid}>Self</option>
           {
+            // Get list of users that are available to assign tasks too.
             users.map(user => {
               if (user.key != uid) {
                 return <option value={user.key}>{user.userName}</option>

@@ -1,19 +1,24 @@
-import React from 'react';
-import { Grid, Image } from 'semantic-ui-react';
-import CardExampleContentBlock from './TaskCard';
+// Table compoent that has three columns for three different progresses. 
+// Tasks get passed in to the columns and passed again to the taskCard component.
+// A header prop also gets passed so that we know what progress the task is at currently and the next
+// progress to move it to.
 
-const GridExampleDividedNumber = ( {notStarted, inProgress, completed, uid} ) => (
+import React from 'react';
+import { Grid } from 'semantic-ui-react';
+import ProgressCard from './TaskCard';
+
+const TaskTable = ( {notStarted, inProgress, completed, uid} ) => (
   <Grid columns='equal' id="main-task-table">
       <Grid.Column>
-        <CardExampleContentBlock id="main-task-table-notStarted-col" header="Not Started" events = { notStarted } uid={uid}/>
+        <ProgressCard id="main-task-table-notStarted-col" header="Not Started" events = { notStarted } uid={uid}/>
       </Grid.Column>
       <Grid.Column>
-        <CardExampleContentBlock header="In Progress" events = { inProgress } uid={uid}/>
+        <ProgressCard header="In Progress" events = { inProgress } uid={uid}/>
       </Grid.Column>
       <Grid.Column>
-        <CardExampleContentBlock header="Completed" events = { completed } uid={uid}/>
+        <ProgressCard header="Completed" events = { completed } uid={uid}/>
       </Grid.Column>
   </Grid>
 ) 
 
-export default GridExampleDividedNumber
+export default TaskTable

@@ -1,9 +1,14 @@
+// The taskCard Component renders the tasks and adds logic that controls which 
+// progress button (start task, complete, done) to show, and to update the database 
+// correctly on button press.
+
 import React, { Component } from 'react';
 import { Card, Feed, Button, Icon } from 'semantic-ui-react';
-import { base, app } from '../rebase';
+import { base } from '../rebase';
 
-class CardExampleContentBlock extends Component {
+class ProgressCard extends Component {
 
+  // moveTask moves the item from the current 'progress' to the new progress ('newStatus') by updating the database.
   moveTask = (item, uid, progress, newStatus) => {
     base
     .remove('Users/' + uid + '/Tasks/' + progress + '/' + item.key)
@@ -18,6 +23,7 @@ class CardExampleContentBlock extends Component {
       console.log(error);
     });
   } 
+  //renders the start button for when task is in 'Not Started' state 
   startButton = (progress, item, uid) => {
     return (
       <Button color={'purple'} icon labelPosition='left' size='mini' onClick={ () => this.moveTask(item, uid, progress, "In Progress")}>
@@ -26,7 +32,8 @@ class CardExampleContentBlock extends Component {
       </Button>
     )
   }
-  
+
+  //renders the complete button for when task is in 'In Progress' state 
   finishButton = (progress, item, uid) => {
     return (
       <Button color={'blue'} icon labelPosition='left' size='mini' onClick={() => this.moveTask(item, uid, progress, "Completed")}>
@@ -36,6 +43,7 @@ class CardExampleContentBlock extends Component {
     )
   }
   
+  //renders the Done button for when task is in 'Compeleted' state 
   completedButton = () => {
     return (
       <Button color={'green'} icon labelPosition='left' size='mini'>
@@ -45,6 +53,7 @@ class CardExampleContentBlock extends Component {
     )
   }
   
+  // decides which button to display
   logicButton = (progress, item, uid) => {
     switch (progress) {
       case "Not Started": 
@@ -61,8 +70,15 @@ class CardExampleContentBlock extends Component {
   }
 
   render() {
-    
-    const FeedEvent = (header, item, uid) => {
+        
+    const {
+      header, 
+      events, 
+      uid,
+    } = this.props;
+
+    // Renders the actual task that in the card
+    const FeedEvent = (progress, item, userID) => {
       return (
         <Feed.Event className= "Task-card-feed-event" id="task-card">
           <Feed.Content>
@@ -73,19 +89,13 @@ class CardExampleContentBlock extends Component {
             
           </Feed.Content>
             {
-              this.logicButton(header, item, uid)
+              this.logicButton(progress, item, userID)
             }
         </Feed.Event>
       )
     }
-    const {
-      header, 
-      events, 
-      uid,
-    } = this.props;
 
     return (
-
         <Card fluid={true}>
           <Card.Content>
             <Card.Header>{header}</Card.Header>
@@ -93,6 +103,7 @@ class CardExampleContentBlock extends Component {
           <Card.Content>
             <Feed>
               {
+                // go through all the events to render the tasks
                 events.map(item => {
                   return (
                     FeedEvent (header, item, uid)
@@ -105,4 +116,4 @@ class CardExampleContentBlock extends Component {
       )
   }
 }
-export default CardExampleContentBlock
+export default ProgressCard
