@@ -5,7 +5,7 @@ import time
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
 
-
+# determines in minutes how much time is elapsed from current time 
 def timeElapsed(time1):
     currentTime = int(round(time.time() * 1000))
     time1 = int(time1)
@@ -17,6 +17,7 @@ def timeElapsed(time1):
     minutes = int(minutes)
     return minutes
 
+# determines whether or not to reschedule the task 
 def renew(time1, duration):
     isRenew = False
     if (timeElapsed(time1) >= 10080 and duration == "Week"):
@@ -27,7 +28,7 @@ def renew(time1, duration):
         isRenew = True
     return isRenew
 
-
+# goes through all the tasks in the All tasks list and reschedules the tasks if needed
 def reSchedule():
     base = firebase.FirebaseApplication('https://task-master-822ee.firebaseio.com', None)
     result = base.get('Users', None)
@@ -41,20 +42,23 @@ def reSchedule():
                 base.put('Users/' + user + '/Tasks/All/', task, taskItem)
                 print("Added task" + str(taskItem))
 
+#  cron job that runs reSchedule every minute
 sched = BackgroundScheduler(daemon=True)
 sched.add_job(reSchedule,'interval',minutes=1)
 sched.start()
-# Shutdown your cron thread if the web process is stopped
+# Shutdown cron thread if the web process is stopped
 atexit.register(lambda: sched.shutdown(wait=False))
 
 app = Flask(__name__)
 
-@app.route('/')
+# get all tasks from all users
+@app.route('/get_all_tasks')
 def getUsersTasks():
     base = firebase.FirebaseApplication('https://task-master-822ee.firebaseio.com', None)
     result = base.get('Users', None)
     return jsonify(result)
 
+# adds task
 # /addTask, POST:
 # {
 #     'uid': String,
@@ -65,7 +69,7 @@ def getUsersTasks():
 #     }
 #     
 # }
-@app.route('/addTask', methods = ['POST'])
+@app.route('/add_task', methods = ['POST'])
 def addTask():
 
     if request.headers['Content-Type'] == 'application/json':
