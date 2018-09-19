@@ -9,8 +9,8 @@ class NewTaskForm extends Component {
     super(props);
     this.state = {
       summary: "",
-      priority: "",
-      repeat: "",
+      priority: "Low",
+      repeat: "None",
       userID: props.uid,
     };
   }
@@ -21,24 +21,27 @@ class NewTaskForm extends Component {
       uid
     } = this.props;
 
-    let immediatelyAvailableReference = base.push('Users/' + this.state.userID + '/Tasks/Not Started', {
-      // Task to be stored in database
-      data: {summary: this.state.summary, priority: this.state.priority, repeat: this.state.repeat, created: Date.now()},
-      then(err){
-        if(err){
-          console.log(err);
+    if (this.state.summary !== "") {
+      let immediatelyAvailableReference = base.push('Users/' + this.state.userID + '/Tasks/Not Started', {
+        // Task to be stored in database
+        data: {summary: this.state.summary, priority: this.state.priority, repeat: this.state.repeat, created: Date.now()},
+        then(err){
+          if(err){
+            console.log(err);
+          }
         }
-      }
-    })
+      })
+  
+      immediatelyAvailableReference = base.push('Users/' + this.state.userID + '/Tasks/All', {
+        data: {summary: this.state.summary, priority: this.state.priority, repeat: this.state.repeat, created: Date.now()},
+        then(err){
+          if(err){
+            console.log(err);
+          }
+        }
+      })
+    }
 
-    immediatelyAvailableReference = base.push('Users/' + this.state.userID + '/Tasks/All', {
-      data: {summary: this.state.summary, priority: this.state.priority, repeat: this.state.repeat, created: Date.now()},
-      then(err){
-        if(err){
-          console.log(err);
-        }
-      }
-    })
   }
   
   render() {
@@ -51,7 +54,7 @@ class NewTaskForm extends Component {
       <Form>
         <Form.Field>
           <label>Task</label>
-          <input placeholder='Task Description' onChange={(e) => this.setState({summary: e.target.value})}/>
+          <input required placeholder='Task Description' onChange={(e) => this.setState({summary: e.target.value})}/>
         </Form.Field>
         <Form.Field label='Repeat Every' control='select' onChange={(e) => this.setState({repeat: e.target.value})}>
           <option value='None'>None</option>

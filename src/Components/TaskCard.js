@@ -14,7 +14,7 @@ class ProgressCard extends Component {
     .remove('Users/' + uid + '/Tasks/' + progress + '/' + item.key)
     .then(() => {
       base.post('Users/' + uid + '/Tasks/' + newStatus + '/' + item.key, {
-        data: {summary: item.summary, created: item.created, priority: item.priority}
+        data: {summary: item.summary, created: Date.now(), priority: item.priority}
       }).catch(err => {
         console.log(err);
       });
@@ -69,6 +69,26 @@ class ProgressCard extends Component {
     }
   }
 
+  priorityLogic = (priority) => {
+    switch (priority) {
+      case "Low": 
+        return <Icon circular size={'large'} color={'black'} name='flag outline' />
+        break;
+      case "Medium":
+        return <Icon circular size={'large'} color={'green'} name='bicycle' />
+        break;
+      case "High": 
+        return <Icon circular size={'large'} color={'yellow'} name='shipping fast' />
+        break;
+      case "Critical":
+        return <Icon circular size={'large'} color={'red'} name='fighter jet' />
+        break;
+      default:
+        return null;
+        break;
+    }
+  }
+
   render() {
         
     const {
@@ -81,12 +101,16 @@ class ProgressCard extends Component {
     const FeedEvent = (progress, item, userID) => {
       return (
         <Feed.Event className= "Task-card-feed-event" id="task-card">
+          <div data-tooltip={"Priority: " + item.priority + ". Repeat: " + item.repeat}>
+            {
+              this.priorityLogic(item.priority)
+            }
+          </div>
           <Feed.Content>
             <Feed.Date content={ new Date(item.created).toLocaleDateString() } />
             <Feed.Summary>
               { item.summary }
             </Feed.Summary>
-            
           </Feed.Content>
             {
               this.logicButton(progress, item, userID)
